@@ -21,8 +21,12 @@ end
 
 ##### MANUAL CHECKS FOR MULTI-DB CONNECTIONS CONTEXT
 ```ruby
-ActiveRecord::Base.connection_handler.connection_pools.size              # number of connection pools (1 connection pool per DB replica)
-DbRole.hdb_roreplica.connection.instance_eval { @connection_parameters } # connection secrets should be different from master connection
+# number of connection pools (1 connection pool per DB replica)
+ActiveRecord::Base.connection_handler.connection_pools.size
+# connection secrets should be different from master connection
+DbRole.hdb_roreplica.connection.instance_eval { @connection_parameters }
+# check names of connection pools representing multi-db context
+User.connection_handler.instance_eval { @class_to_pool }.keys # => ["ActiveRecord::Base", "ReadOnlyReplicaConnection"]
 ```
 
 ##### TODO
