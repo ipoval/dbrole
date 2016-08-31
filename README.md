@@ -19,14 +19,14 @@ class ApplicationForkConfigurator
 end
 ```
 
-##### MANUAL CHECKS FOR MULTI-DB CONNECTIONS CONTEXT
+##### MANUAL CHECKS FOR MULTI-DB CONNECTION CONTEXT
 ```ruby
 # number of connection pools (1 connection pool per DB replica)
 ActiveRecord::Base.connection_handler.connection_pools.size
 # connection secrets should be different from master connection
 DbRole.hdb_roreplica.connection.instance_eval { @connection_parameters }
 # check names of connection pools representing multi-db context
-User.connection_handler.instance_eval { @class_to_pool }.keys # => ["ActiveRecord::Base", "ReadOnlyReplicaConnection"]
+User.connection_handler.instance_eval { @class_to_pool }.keys # => ["ActiveRecord::Base", "HdbRoReplica"]
 ```
 
 ##### TODO
