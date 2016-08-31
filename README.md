@@ -2,6 +2,7 @@
 Multi-DB connection switching strategy for Rails ActiveRecord library
 
 ### RE-INITIALIZE MULTI-DB CONNECTIONS IN THE FORKED PROCESSES CONTEXT
+```
 class ApplicationForkConfigurator
   def self.before_fork
     if defined?(ActiveRecord::Base)
@@ -16,3 +17,4 @@ class ApplicationForkConfigurator
     end
   end
 end
+```
