@@ -1,3 +1,15 @@
+# Example of usage:
+#
+def dbrole(klass, dbrole, &block)
+  fail ArgumentError, 'provide a block to swith connection there' unless block_given?
+  fail ArgumentError, 'bad DB role class' unless dbrole.respond_to?(:connection)
+
+  klass.force_dbrole = dbrole
+  yield
+ensure
+  klass.force_dbrole = nil
+end
+
 class ActiveRecord::Base
   class_attribute :force_dbrole, instance_accessor: false
 end
@@ -11,16 +23,4 @@ class ActiveRecord::ConnectionAdapters::ConnectionHandler
     end
     send(:'original retrieve_connection', klass)
   end
-end
-
-# Example of usage:
-#
-def dbrole(klass, dbrole, &block)
-  fail ArgumentError, 'provide a block to swith connection there' unless block_given?
-  fail ArgumentError, 'bad DB role class' unless dbrole.respond_to?(:connection)
-
-  klass.force_dbrole = dbrole
-  yield
-ensure
-  klass.force_dbrole = nil
 end
