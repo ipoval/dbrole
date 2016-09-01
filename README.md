@@ -1,6 +1,8 @@
 # dbrole
 Multi-DB connection switching strategy for Rails ActiveRecord library
 
+[![Build Status](https://travis-ci.org/ipoval/dbrole.svg?branch=master)](https://travis-ci.org/ipoval/dbrole)
+
 ##### USAGE
 ```ruby
 DbRole.hdb_roreplica.connection.select_rows('SQL');  # acquire active connection from replica connection pool
