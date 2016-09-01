@@ -5,7 +5,7 @@ module DbRole
         require_relative "api"
         require_relative "app"
       else
-        fail Loaderror.new("ActiveRecord::Base must be loaded")
+        fail LoadError.new("ActiveRecord::Base must be loaded")
       end
     end
   end
