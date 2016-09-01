@@ -42,6 +42,8 @@ class MultiDbTest < ActiveSupport::TestCase
     assert_equal 2, ActiveRecord::Base.connection_handler.connection_pools.size
   end
 
+  # Commented out this test since it breaks connection switching
+
   # test 'given all connections cleared, connections to replica db should also be cleared' do
   #   assert master_connection_pool.connected?
   #   assert replica_connection_pool.connected?
@@ -50,8 +52,6 @@ class MultiDbTest < ActiveSupport::TestCase
   #
   #   refute master_connection_pool.connected?
   #   refute replica_connection_pool.connected?
-  #
-  #   reestablish_connections_once
   # end
 
   private
