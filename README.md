@@ -28,3 +28,8 @@ DbRole.hdb_roreplica.connection.instance_eval { @connection_parameters }
 # check names of connection pools representing multi-db context
 User.connection_handler.instance_eval { @class_to_pool }.keys # => ["ActiveRecord::Base", "HdbRoReplica"]
 ```
+
+##### TESTS RUN
+```
+bundle exec rake
+```
