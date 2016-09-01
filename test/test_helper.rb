@@ -13,4 +13,4 @@ require "logger"
 require "test/unit"
 require "active_record"
 
-require_relative "../lib/dbrole_api"
+require_relative "../lib/dbrole/api"
