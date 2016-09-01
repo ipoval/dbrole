@@ -1,0 +1,9 @@
+language: ruby
+sudo: false
+rvm:
+  - 1.9.3
+  - 2.2.3
+matrix:
+  allow_failures:
+    - rvm: ruby-head
+    - rvm: jruby-head
