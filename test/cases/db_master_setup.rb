@@ -3,6 +3,6 @@ ActiveRecord::Base.logger = Logger.new(STDOUT)
 
 ActiveRecord::Schema.define do
   create_table :cars, force: true do |t|
-    t.string :model
+    t.string :model, null: false
   end
 end

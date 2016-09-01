@@ -1,4 +1,5 @@
 # Example of usage:
+#  dbrole(Car, DbRole.hdb_roreplica) { Car.where(...) }
 #
 def dbrole(klass, dbrole, &block)
   fail ArgumentError, 'provide a block to swith connection there' unless block_given?

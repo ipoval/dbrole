@@ -1,6 +1,7 @@
 ##############################################################################
 # Test Multi-DB connection switching in rails ActiveRecord library
 ##############################################################################
+
 begin
   require "bundler/inline"
 rescue LoadError => e
@@ -19,3 +20,4 @@ require "active_support"
 require "active_support/test_case"
 require "active_record"
 require "logger"
+require_relative "../lib/dbrole_api"
