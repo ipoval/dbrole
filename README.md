@@ -28,8 +28,3 @@ DbRole.hdb_roreplica.connection.instance_eval { @connection_parameters }
 # check names of connection pools representing multi-db context
 User.connection_handler.instance_eval { @class_to_pool }.keys # => ["ActiveRecord::Base", "HdbRoReplica"]
 ```
-
-##### TODO
-# CHECK THAT AFTER WE DROP THE CONNECTIONS FROM ALL THE POOLLS THE POOL TO THE READ-ONLY-REPLICA DB ALSO DOES NOT
-# HAVE ANY OPEN CONNECTIONS
-ActiveRecord::Base.connection_handler.connection_pools.to_a.last.last.connected?

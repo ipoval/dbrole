@@ -3,7 +3,7 @@ require_relative 'cases/db_master_setup'
 require_relative 'cases/db_hdb_roreplica_setup'
 require_relative 'cases/car'
 
-class MultiDBTest < ActiveSupport::TestCase
+class MultiDbTest < ActiveSupport::TestCase
   test 'master-db INSERT' do
     Car.destroy_all
     Car.create!(model: 'bmw')
