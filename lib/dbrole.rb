@@ -4,5 +4,4 @@ module DbRole
 end
 
 require_relative 'lib/dbrole/version'
-require_relative 'lib/dbrole/api'
-require_relative 'lib/dbrole/app'
+require_relative 'lib/dbrole/railtie' if defined?(Rails::Railtie)
