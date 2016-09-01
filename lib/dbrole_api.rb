@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Example of usage:
 #  dbrole(Car, DbRole.hdb_roreplica) { Car.where(...) }
 #

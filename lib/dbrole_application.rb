@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Example of usage:
 #   DbRole.hdb_roreplica.connection.select_rows('SQL');
 #

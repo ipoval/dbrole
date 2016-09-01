@@ -9,15 +9,10 @@ rescue LoadError => e
   raise e
 end
 
-gemfile(true) do
-  source "https://rubygems.org"
-  gem "rails", "3.2.22.4"
-  gem "sqlite3"
-end
-
+require "logger"
 require "test/unit"
 require "active_support"
 require "active_support/test_case"
 require "active_record"
-require "logger"
+
 require_relative "../lib/dbrole_api"

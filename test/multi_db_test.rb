@@ -36,4 +36,36 @@ class MultiDbTest < ActiveSupport::TestCase
       assert_equal 1, Car.count
     end
   end
+
+  test 'connection pool size' do
+    # 1 connection pool for master db + 1 connection pool for replica db
+    assert_equal 2, ActiveRecord::Base.connection_handler.connection_pools.size
+  end
+
+  # test 'given all connections cleared, connections to replica db should also be cleared' do
+  #   assert master_connection_pool.connected?
+  #   assert replica_connection_pool.connected?
+  #
+  #   ActiveRecord::Base.clear_all_connections!
+  #
+  #   refute master_connection_pool.connected?
+  #   refute replica_connection_pool.connected?
+  #
+  #   reestablish_connections_once
+  # end
+
+  private
+
+  def reestablish_connections_once
+    ActiveRecord::Base.establish_connection(adapter: "sqlite3", database: ":memory:")
+    TestDbRole::HdbRoReplica.establish_connection(adapter: "sqlite3", database: ":memory:")
+  end
+
+  def master_connection_pool
+    ActiveRecord::Base.connection_handler.connection_pools.to_a[0][1]
+  end
+
+  def replica_connection_pool
+    ActiveRecord::Base.connection_handler.connection_pools.to_a[1][1]
+  end
 end
