@@ -2,6 +2,7 @@
 Multi-DB connection switching strategy for Rails ActiveRecord library
 
 [![Build Status](https://travis-ci.org/ipoval/dbrole.svg?branch=master)](https://travis-ci.org/ipoval/dbrole)
+[![Code Climate](https://codeclimate.com/github/ipoval/dbrole/badges/gpa.svg)](https://codeclimate.com/github/ipoval/dbrole)
 
 ##### USAGE
 ```ruby
