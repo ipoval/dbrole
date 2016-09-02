@@ -3,7 +3,7 @@
 # Example of usage:
 #  dbrole(Car, DbRole.hdb_roreplica) { Car.where(...) }
 #
-def dbrole(klass, dbrole, &block)
+def dbrole(klass, dbrole, &_block)
   fail ArgumentError, 'provide a block to swith connection there' unless block_given?
   fail ArgumentError, 'bad DB role class' unless dbrole.respond_to?(:connection)
 
