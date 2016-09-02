@@ -3,7 +3,7 @@
 ##############################################################################
 
 require "logger"
-require "test/unit"
+require "minitest/autorun"
 require "active_record"
 
 require_relative "../lib/dbrole/api"
