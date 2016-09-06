@@ -3,7 +3,6 @@ module DbRole
     initializer "dbrole.initializer" do |app|
       if defined?(ActiveRecord::Base)
         require_relative "api"
-        require_relative "app"
 
         ::DbRoleManager = DbRole::Manager.new
         ::DbRoleManager.patch! if ENV['DBROLE_ENABLED'].present?
