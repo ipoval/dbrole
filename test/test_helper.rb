@@ -6,4 +6,8 @@ require "logger"
 require "minitest/autorun"
 require "active_record"
 
+require_relative "../lib/dbrole"
 require_relative "../lib/dbrole/api"
+
+DbRoleManager = DbRole::Manager.new
+DbRoleManager.patch!

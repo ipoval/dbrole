@@ -1,29 +1,23 @@
 # frozen_string_literal: true
 
-# Example of usage:
-#  dbrole(Car, DbRole.hdb_roreplica) { Car.where(...) }
+# @params:
+#   klass - ActiveRecord::Base class we want switch connection for
+#   role  - ActiveRecord::Base connection pool we want to use for the klass
 #
-def dbrole(klass, dbrole, &_block)
+# Example of usage:
+#   dbrole(Car, DbRole.hdb_roreplica) { Car.where(...) }
+#
+# Nesting is not supported:
+#   dbrole() { dbrole() {} }
+#
+def dbrole(klass, role, &_block)
   fail ArgumentError, 'provide a block to swith connection there' unless block_given?
-  fail ArgumentError, 'bad DB role class' unless dbrole.respond_to?(:connection)
+  fail ArgumentError, 'bad DB role class' unless role.respond_to?(:connection)
 
-  klass.force_dbrole = dbrole
+  Thread.current[:dbrole] ||= {}
+  Thread.current[:dbrole][klass.to_s] = role
+
   yield
 ensure
-  klass.force_dbrole = nil
-end
-
-class ActiveRecord::Base
-  class_attribute :force_dbrole, instance_accessor: false
-end
-
-class ActiveRecord::ConnectionAdapters::ConnectionHandler
-  alias_method :'original retrieve_connection', :retrieve_connection
-
-  def retrieve_connection(klass)
-    if klass.force_dbrole
-      return send(:'original retrieve_connection', klass.force_dbrole)
-    end
-    send(:'original retrieve_connection', klass)
-  end
+  Thread.current[:dbrole].clear
 end
