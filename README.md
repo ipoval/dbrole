@@ -6,8 +6,9 @@ Multi-DB connection switching strategy for Rails ActiveRecord library
 
 ##### USAGE
 ```ruby
-DbRole.hdb_roreplica.connection.select_rows('SQL');  # acquire active connection from replica connection pool
-dbrole(Car, DbRole.hdb_roreplica) { Car.where(...) } # switch db connection pool for Car klass mapping
+I. DbRole.hdb_roreplica.connection.select_rows('SQL');  # acquire active connection from replica connection pool
+
+II. dbrole(Car, DbRole.hdb_roreplica) { Car.where(...) } # switch db connection pool for Car klass mapping
 
 #**** Nesting is not supported ***#
 
