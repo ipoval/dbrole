@@ -6,7 +6,8 @@ Multi-DB connection switching strategy for Rails ActiveRecord library
 
 ##### HOW TO ENABLE
 ```
-DBROLE_ENABLED=true environment variable when set triggers activation on rails environment boot
+DBROLE_ENABLED=true
+environment variable when set triggers activation on rails environment boot
 ```
 
 ##### USAGE
