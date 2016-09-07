@@ -7,7 +7,7 @@ Multi-DB connection switching strategy for Rails ActiveRecord library
 ##### SETUP IN RAILS APPLICATION
 ```
 module DbRole
-  # Abstract class that points to Read Replica DB connection pool
+  # Abstract class that points to Read-Replica DB connection pool
   class ReadReplica < ActiveRecord::Base
     establish_connection :read_replica
     self.abstract_class = true
@@ -24,8 +24,7 @@ end
 
 ##### HOW TO ENABLE
 ```
-DBROLE_ENABLED=true
-environment variable when set triggers activation on rails environment boot
+DBROLE_ENABLED=true # environment variable when set triggers activation on rails environment boot
 ```
 
 ##### USAGE
