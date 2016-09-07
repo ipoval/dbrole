@@ -4,6 +4,24 @@ Multi-DB connection switching strategy for Rails ActiveRecord library
 [![Build Status](https://travis-ci.org/ipoval/dbrole.svg?branch=master)](https://travis-ci.org/ipoval/dbrole)
 [![Code Climate](https://codeclimate.com/github/ipoval/dbrole/badges/gpa.svg)](https://codeclimate.com/github/ipoval/dbrole)
 
+##### SETUP IN RAILS APPLICATION
+```
+module DbRole
+  # Abstract class that points to Read Replica DB connection pool
+  class ReadReplica < ActiveRecord::Base
+    establish_connection :read_replica
+    self.abstract_class = true
+  end
+
+  module_function
+
+  def read_replica
+    return ActiveRecord::Base if Rails.env.test?
+    ReadReplica
+  end
+end
+```
+
 ##### HOW TO ENABLE
 ```
 DBROLE_ENABLED=true
@@ -12,13 +30,13 @@ environment variable when set triggers activation on rails environment boot
 
 ##### USAGE
 ```ruby
-I. DbRole.hdb_roreplica.connection.select_rows('SQL'); # acquire active connection from replica connection pool
+I. DbRole.read_replica.connection.select_rows('SQL');   # acquire active connection from replica connection pool
 
-II. dbrole(Car, DbRole.hdb_roreplica) { Car.where(...) } # switch db connection pool for Car klass mapping
+II. dbrole(Car, DbRole.read_replica) { Car.where(...) } # switch db connection pool for Car klass mapping
 
 #**** Nesting is not supported ***#
 
-dbrole(Car, DbRole.hdb_roreplica) {
+dbrole(Car, DbRole.read_replica) {
   Car.where(...)
   dbrole(Car, ActiveRecord::Base) { ... }
 }
@@ -38,7 +56,7 @@ class ApplicationForkConfigurator
   def self.after_fork
     if defined?(ActiveRecord::Base)
       ActiveRecord::Base.establish_connection
-      DbRole.hdb_roreplica_establish_connection
+      DbRole.read_replica_establish_connection
     end
   end
 end
@@ -50,10 +68,10 @@ end
 ActiveRecord::Base.connection_handler.connection_pools.size
 
 # connection secrets should be different from master connection
-DbRole.hdb_roreplica.connection.instance_eval { @connection_parameters }
+DbRole.read_replica.connection.instance_eval { @connection_parameters }
 
 # check names of connection pools representing multi-db context
-User.connection_handler.instance_eval { @class_to_pool }.keys # => ["ActiveRecord::Base", "HdbRoReplica"]
+User.connection_handler.instance_eval { @class_to_pool }.keys # => ["ActiveRecord::Base", "ReadReplica"]
 ```
 
 ##### TESTS RUN
