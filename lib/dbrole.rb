@@ -15,15 +15,11 @@ module DbRole
         alias_method :'original retrieve_connection', :retrieve_connection
 
         def retrieve_connection(klass)
-          ::DbRoleManager.lock.synchronize do
-
-            if Thread.current[:dbrole].present? && \
-               (switch_to = Thread.current[:dbrole][klass.to_s])
-              return send(:'original retrieve_connection', switch_to)
-            end
-            send(:'original retrieve_connection', klass)
-
+          if Thread.current[:dbrole].present? && \
+             (switch_to = Thread.current[:dbrole][klass.to_s])
+            return send(:'original retrieve_connection', switch_to)
           end
+          send(:'original retrieve_connection', klass)
         end
       end
     end
