@@ -27,7 +27,7 @@ end
 DBROLE_ENABLED=true # environment variable when set triggers activation on rails environment boot
 ```
 
-##### DIAGRAM
+##### CONNECTIONS STORED IN CONNECTION POOLS MANAGED BY CONNECTION HANDLER
 ![alt text](https://github.com/ipoval/dbrole/blob/master/assets/ar-connections-diagram.png "")
 
 ##### USAGE
