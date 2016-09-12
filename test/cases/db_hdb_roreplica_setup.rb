@@ -1,6 +1,6 @@
 module TestDbRole
   class HdbRoReplica < ActiveRecord::Base
-    establish_connection(adapter: "sqlite3", database: ":memory:")
+    establish_connection(adapter: "sqlite3", database: ":memory:", mode: "readonly")
     self.abstract_class = true
   end
 
