@@ -28,7 +28,7 @@ DBROLE_ENABLED=true # environment variable when set triggers activation on rails
 ```
 
 ##### CONNECTIONS STORED IN CONNECTION POOLS MANAGED BY CONNECTION HANDLER
-![alt text](../assets/ar-connections-diagram.png "")
+![alt text](../master/assets/ar-connections-diagram.png "")
 
 ##### USAGE
 ```ruby
