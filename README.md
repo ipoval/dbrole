@@ -27,6 +27,9 @@ end
 DBROLE_ENABLED=true # environment variable when set triggers activation on rails environment boot
 ```
 
+##### DIAGRAM
+![alt text](https://github.com/ipoval/dbrole/blob/master/assets/ar-connections-diagram.png "")
+
 ##### USAGE
 ```ruby
 I. DbRole.read_replica.connection.select_rows('SQL');   # acquire active connection from replica connection pool
