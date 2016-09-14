@@ -11,7 +11,7 @@
 #   dbrole() { dbrole() {} }
 #
 def dbrole(klass, role, &_block)
-  fail ArgumentError, 'provide a block to swith connection there' unless block_given?
+  fail ArgumentError, 'provide a block to swith connection' unless block_given?
   fail ArgumentError, 'bad DB role class' unless role.respond_to?(:connection)
 
   Thread.current[:dbrole] ||= {}
