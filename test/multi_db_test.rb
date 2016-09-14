@@ -1,6 +1,6 @@
 require_relative 'test_helper'
 require_relative 'cases/db_master_setup'
-require_relative 'cases/db_hdb_roreplica_setup'
+require_relative 'cases/db_replica_setup'
 require_relative 'cases/car'
 
 class MultiDbTest < Minitest::Test
@@ -13,7 +13,7 @@ class MultiDbTest < Minitest::Test
   end
 
   def test_replica_db_insert
-    dbrole(Car, TestDbRole::HdbRoReplica) do
+    dbrole(Car, TestDbRole::Replica) do
       Car.destroy_all
       Car.create!(model: 'audi')
 
@@ -26,7 +26,7 @@ class MultiDbTest < Minitest::Test
     cars_in_primary_db_count = Car.count
     Car.create!(model: 'mercedes')
 
-    dbrole(Car, TestDbRole::HdbRoReplica) {
+    dbrole(Car, TestDbRole::Replica) {
       cars_in_replica_db_count = Car.count
       Car.create!(model: 'mercedes')
       assert_equal Car.count, cars_in_replica_db_count + 1

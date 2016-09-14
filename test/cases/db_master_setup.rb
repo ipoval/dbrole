@@ -5,4 +5,6 @@ ActiveRecord::Schema.define do
   create_table :cars, force: true do |t|
     t.string :model, null: false
   end
+
+  add_index(:cars, :model, unique: true)
 end
