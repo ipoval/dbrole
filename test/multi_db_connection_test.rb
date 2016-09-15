@@ -10,7 +10,7 @@ class MultiDbTest < Minitest::Test
   end
 
   def test_given_all_connections_cleared_connections_to_replica_db_should_also_be_cleared
-    skip 'run this test alone'
+    skip 'ONLY WORKS FOR sqlite PERSISTED TO A FILE'
     assert master_connection_pool.connected?
     assert replica_connection_pool.connected?
 
