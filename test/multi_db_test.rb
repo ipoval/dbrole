@@ -22,6 +22,16 @@ class MultiDbTest < Minitest::Test
     end
   end
 
+  def test_replica_db_with_active_record_base
+    Car.destroy_all
+    dbrole(ActiveRecord::Base, TestDbRole::Replica) { Car.destroy_all }
+
+    Car.create!(model: 'audi')
+    dbrole(ActiveRecord::Base, TestDbRole::Replica) { Car.create!(model: 'audi') }
+    assert_equal 1, Car.count
+    assert_equal 1, dbrole(ActiveRecord::Base, TestDbRole::Replica) { Car.count }
+  end
+
   def test_given_unique_index_on_cars_model_multi_db_insert_works
     cars_in_primary_db_count = Car.count
     Car.create!(model: 'mercedes')

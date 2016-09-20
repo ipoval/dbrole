@@ -4,22 +4,20 @@ module DbRole
   class Manager
     attr_accessor :lock
 
-    def initialize
-      @lock = Mutex.new
-    end
-
     def patch!
       Thread.current[:dbrole] ||= {}
 
       ActiveRecord::ConnectionAdapters::ConnectionHandler.class_eval do
-        alias_method :'original retrieve_connection', :retrieve_connection
+        alias_method :'original retrieve_connection_pool', :retrieve_connection_pool
 
-        def retrieve_connection(klass)
-          if Thread.current[:dbrole].present? && \
-             (switch_to = Thread.current[:dbrole][klass.to_s])
-            return send(:'original retrieve_connection', switch_to)
+        def retrieve_connection_pool(klass)
+          switch_to = if Thread.current[:dbrole].present? && Thread.current[:dbrole][klass.name]
+            Thread.current[:dbrole][klass.name]
+          else
+            klass
           end
-          send(:'original retrieve_connection', klass)
+
+          send(:'original retrieve_connection_pool', switch_to)
         end
       end
     end

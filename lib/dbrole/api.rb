@@ -15,7 +15,7 @@ def dbrole(klass, role, &_block)
   fail ArgumentError, 'bad DB role class' unless role.respond_to?(:connection)
 
   Thread.current[:dbrole] ||= {}
-  Thread.current[:dbrole][klass.to_s] = role
+  Thread.current[:dbrole][klass.name] = role
 
   yield
 ensure
