@@ -25,7 +25,6 @@ class MultiDbTest < Minitest::Test
   def test_replica_db_with_active_record_base
     Car.destroy_all
     dbrole(ActiveRecord::Base, TestDbRole::Replica) { Car.destroy_all }
-
     Car.create!(model: 'audi')
     dbrole(ActiveRecord::Base, TestDbRole::Replica) { Car.create!(model: 'audi') }
     assert_equal 1, Car.count
