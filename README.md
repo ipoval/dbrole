@@ -32,9 +32,11 @@ DBROLE_ENABLED=true # environment variable when set triggers activation on rails
 
 ##### USAGE
 ```ruby
-I. DbRole.read_replica.connection.select_rows('SQL');   # acquire active connection from replica connection pool
+1. DbRole.read_replica.connection.select_rows('SQL');  # acquire active connection from replica connection pool
 
-II. dbrole(Car, DbRole.read_replica) { Car.where(...) } # switch db connection pool for Car klass mapping
+2. dbrole(Car, DbRole.read_replica) { Car.where(...) } # switch db connection for Car class mapping
+
+3. dbrole(ActiveRecord::Base, DbRole.read_replica) { {Car,User,...}.where(...) } # switch db connection for all classes mapped to ActiveRecord::Base connection pool
 
 #**** Nesting is not supported ***#
 
