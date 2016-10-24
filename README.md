@@ -41,7 +41,7 @@ DBROLE_ENABLED=true # environment variable when set triggers activation on rails
 # switch db connection for all classes mapped to ActiveRecord::Base connection pool
 3. dbrole(ActiveRecord::Base, DbRole.read_replica) { {Car,User,...}.where(...) }
 
-#**** Nesting is not supported ***#
+#**** Nesting is not supported ****#
 dbrole(Car, DbRole.read_replica) {
   Car.where(...)
   dbrole(Car, ActiveRecord::Base) { ... }
