@@ -9,7 +9,7 @@ class DbRoleApiTest < Minitest::Test
     @connection_pool.expect :connection, true
 
     assert_raises(ArgumentError, 'provide a block to swith connection') {
-      dbrole(Object, @connection_pool)
+      DbRole.switch(Object, @connection_pool)
     }
   end
 
@@ -18,14 +18,14 @@ class DbRoleApiTest < Minitest::Test
     refute klass_without_connection.respond_to?(:connection)
 
     assert_raises(ArgumentError, 'bad DB role class') {
-      dbrole(Object, klass_without_connection) { true }
+      DbRole.switch(Object, klass_without_connection) { true }
     }
   end
 
   def test_db_role_set_current_thread_state
     def @connection_pool.connection; end
 
-    dbrole(Object, @connection_pool) do
+    DbRole.switch(Object, @connection_pool) do
       assert_equal Object.to_s, Thread.current[:dbrole].keys.first
       assert_equal @connection_pool.object_id, Thread.current[:dbrole].values.first.object_id
     end

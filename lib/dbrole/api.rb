@@ -1,23 +1,34 @@
 # frozen_string_literal: true
 
-# @params:
-#   klass - ActiveRecord::Base class we want switch connection for
-#   role  - ActiveRecord::Base connection pool we want to use for the klass
-#
 # Example of usage:
-#   dbrole(Car, DbRole.hdb_roreplica) { Car.where(...) }
+#   DbRole.switch(Car, DbRole.hdb_roreplica) { Car.where(...) }
 #
-# Nesting is not supported:
-#   dbrole() { dbrole() {} }
+# Example (proposal) for switch_many(klassType1, roleType1, klassType2, roleType2, &block)
+#   - to switch many different types of DB to new connection pools at once
+#   - could be useful to switch connections on per request scope.
 #
-def dbrole(klass, role, &_block)
-  fail ArgumentError, 'provide a block to swith connection' unless block_given?
-  fail ArgumentError, 'bad DB role class' unless role.respond_to?(:connection)
+module DbRole
+  module_function
 
-  Thread.current[:dbrole] ||= {}
-  Thread.current[:dbrole][klass.name] = role
+  # @params:
+  #   klass - ActiveRecord::Base class we want switch connection for
+  #   role  - ActiveRecord::Base connection pool we want to use for the klass
+  def switch(klass, role, &_block)
+    fail ArgumentError, 'provide a block to swith connection' unless block_given?
+    fail ArgumentError, 'bad DB role class' unless role.respond_to?(:connection)
 
-  yield
-ensure
-  Thread.current[:dbrole].clear
+    Thread.current[:dbrole] ||= {}
+    previous_role = Thread.current[:dbrole][klass.name]
+    Thread.current[:dbrole][klass.name] = role
+
+    yield
+  ensure
+    if Thread.current[:dbrole]
+      if previous_role
+        Thread.current[:dbrole][klass.name] = previous_role
+      else
+        Thread.current[:dbrole].delete(klass.name)
+      end
+    end
+  end
 end

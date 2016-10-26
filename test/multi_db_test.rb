@@ -13,7 +13,7 @@ class MultiDbTest < Minitest::Test
   end
 
   def test_replica_db_insert
-    dbrole(Car, TestDbRole::Replica) do
+    DbRole.switch(Car, TestDbRole::Replica) do
       Car.destroy_all
       Car.create!(model: 'audi')
 
@@ -25,18 +25,18 @@ class MultiDbTest < Minitest::Test
   def test_replica_db_with_active_record_base
     skip 'FIXME FOR RAILS4'
     Car.destroy_all
-    dbrole(ActiveRecord::Base, TestDbRole::Replica) { Car.destroy_all }
+    DbRole.switch(ActiveRecord::Base, TestDbRole::Replica) { Car.destroy_all }
     Car.create!(model: 'audi')
-    dbrole(ActiveRecord::Base, TestDbRole::Replica) { Car.create!(model: 'audi') }
+    DbRole.switch(ActiveRecord::Base, TestDbRole::Replica) { Car.create!(model: 'audi') }
     assert_equal 1, Car.count
-    assert_equal 1, dbrole(ActiveRecord::Base, TestDbRole::Replica) { Car.count }
+    assert_equal 1, DbRole.switch(ActiveRecord::Base, TestDbRole::Replica) { Car.count }
   end
 
   def test_given_unique_index_on_cars_model_multi_db_insert_works
     cars_in_primary_db_count = Car.count
     Car.create!(model: 'mercedes')
 
-    dbrole(Car, TestDbRole::Replica) {
+    DbRole.switch(Car, TestDbRole::Replica) {
       cars_in_replica_db_count = Car.count
       Car.create!(model: 'mercedes')
       assert_equal Car.count, cars_in_replica_db_count + 1
