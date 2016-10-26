@@ -18,16 +18,17 @@ module DbRole
     fail ArgumentError, 'bad DB role class' unless role.respond_to?(:connection)
 
     Thread.current[:dbrole] ||= {}
-    previous_role = Thread.current[:dbrole][klass.name]
-    Thread.current[:dbrole][klass.name] = role
+    klass_name = klass.name
+    previous_role = Thread.current[:dbrole][klass_name]
+    Thread.current[:dbrole][klass_name] = role
 
     yield
   ensure
     if Thread.current[:dbrole]
       if previous_role
-        Thread.current[:dbrole][klass.name] = previous_role
+        Thread.current[:dbrole][klass_name] = previous_role
       else
-        Thread.current[:dbrole].delete(klass.name)
+        Thread.current[:dbrole].delete(klass_name)
       end
     end
   end
