@@ -23,7 +23,6 @@ class MultiDbTest < Minitest::Test
   end
 
   def test_replica_db_with_active_record_base
-    skip 'FIXME FOR RAILS4'
     Car.destroy_all
     DbRole.switch(ActiveRecord::Base, TestDbRole::Replica) { Car.destroy_all }
     Car.create!(model: 'audi')
