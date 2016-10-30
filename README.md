@@ -24,7 +24,7 @@ end
 
 ##### HOW TO ENABLE
 ```
-DBROLE_ENABLED=true # environment variable when set triggers activation on rails environment boot
+DBROLE_ENABLED=true # set environment variable
 ```
 
 ##### CONNECTIONS STORED IN CONNECTION POOLS MANAGED BY CONNECTION HANDLER
