@@ -7,6 +7,7 @@ Rake::TestTask.new do |t|
     test/db_role_api_test.rb
     test/multi_db_test.rb
     test/multi_db_connection_test.rb
+    test/shardB_multi_db_test.rb
   )
   t.verbose = true
 end

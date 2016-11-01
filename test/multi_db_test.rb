@@ -29,15 +29,15 @@ class MultiDbTest < Minitest::Test
   end
 
   def test_given_unique_index_on_cars_model_multi_db_insert_works
-    cars_in_primary_db_count = Car.count
+    cars_master_db_count = Car.count
     Car.create!(model: 'mercedes')
 
     DbRole.switch(Car, ShardA::Replica) {
-      cars_in_replica_db_count = Car.count
+      cars_replica_db_count = Car.count
       Car.create!(model: 'mercedes')
-      assert_equal Car.count, cars_in_replica_db_count + 1
+      assert_equal Car.count, cars_replica_db_count + 1
     }
 
-    assert_equal Car.count, cars_in_primary_db_count + 1
+    assert_equal Car.count, cars_master_db_count + 1
   end
 end

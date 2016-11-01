@@ -23,4 +23,5 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency "sqlite3"
   gem.add_development_dependency "rake", "~> 11.2.2"
   gem.add_development_dependency "minitest", "~> 5.0"
+  gem.add_development_dependency "debugger"
 end
