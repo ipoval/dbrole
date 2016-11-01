@@ -1,16 +1,15 @@
 require_relative 'test_helper'
-require_relative 'cases/db_master_setup'
-require_relative 'cases/db_replica_setup'
-require_relative 'cases/car'
 
 class MultiDbTest < Minitest::Test
   def test_connection_pool_size
-    # 1 connection pool for master db + 1 connection pool for replica db
-    assert_equal 2, ActiveRecord::Base.connection_handler.connection_pools.size
+    # 2 connection pools for shardA (master, replica)
+    # 2 connection pools for shardB (master, replica)
+    assert_equal 4, ActiveRecord::Base.connection_handler.connection_pools.size
   end
 
   def test_given_all_connections_cleared_connections_to_replica_db_should_also_be_cleared
-    skip 'ONLY WORKS FOR sqlite PERSISTED TO A FILE'
+    skip 'only works for sqlite persisted to file'
+
     assert master_connection_pool.connected?
     assert replica_connection_pool.connected?
 

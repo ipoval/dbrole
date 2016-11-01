@@ -5,7 +5,7 @@ module DbRole
         require_relative "api"
 
         ::DbRoleManager = DbRole::Manager.new
-        ::DbRoleManager.patch! if ENV["DBROLE_ENABLED"].present?
+        ::DbRoleManager.patch!
       else
         fail LoadError, "ActiveRecord::Base must be loaded"
       end
