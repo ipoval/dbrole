@@ -8,17 +8,16 @@
 #   - could be useful to switch connections on per request scope.
 #
 module DbRole
-  module_function
-
   # @params:
   #   klass - ActiveRecord::Base class we want switch connection for
   #   role  - ActiveRecord::Base connection pool we want to use for the klass
   def switch(klass, role, &_block)
-    fail ArgumentError, 'provide a block to swith connection' unless block_given?
-    fail ArgumentError, 'bad DB role class' unless role.respond_to?(:connection)
+    validate_role_and_klass(klass, role)
+    fail ArgumentError, 'bad DB class' unless klass.respond_to?(:connection)
+
+    klass_name = klass.name
 
     Thread.current[:dbrole] ||= {}
-    klass_name = klass.name
     previous_role = Thread.current[:dbrole][klass_name]
     Thread.current[:dbrole][klass_name] = role
 
@@ -31,5 +30,13 @@ module DbRole
         Thread.current[:dbrole].delete(klass_name)
       end
     end
+  end
+  module_function :switch
+
+  private
+
+  def validate_role_and_klass(klass, role)
+    fail ArgumentError, 'bad DB class' unless klass.respond_to?(:connection)
+    fail ArgumentError, 'bad DB role class' unless role.respond_to?(:connection)
   end
 end

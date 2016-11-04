@@ -5,22 +5,21 @@ module DbRole
     attr_accessor :lock
 
     def patch!
-      Thread.current[:dbrole] ||= {}
-
       ActiveRecord::ConnectionAdapters::ConnectionHandler.class_eval do
-        alias_method :'original retrieve_connection_pool', :retrieve_connection_pool
+        alias_method :'original_retrieve_connection_pool', :retrieve_connection_pool
 
         def retrieve_connection_pool(klass)
-          switch_to = if Thread.current[:dbrole].present? && Thread.current[:dbrole][klass.name]
+          switch_to = if Thread.current.key?(:dbrole) && Thread.current[:dbrole][klass.name]
             Thread.current[:dbrole][klass.name]
           else
             klass
           end
 
-          send(:'original retrieve_connection_pool', switch_to)
+          send(:'original_retrieve_connection_pool', switch_to)
         end
       end
     end
+
   end
 end
 
