@@ -33,10 +33,9 @@ module DbRole
   end
   module_function :switch
 
-  private
-
   def validate_role_and_klass(klass, role)
     fail ArgumentError, 'bad DB class' unless klass.respond_to?(:connection)
     fail ArgumentError, 'bad DB role class' unless role.respond_to?(:connection)
   end
+  module_function :validate_role_and_klass
 end

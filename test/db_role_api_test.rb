@@ -3,6 +3,7 @@ require_relative 'test_helper'
 class DbRoleApiTest < Minitest::Test
   def setup
     @connection_pool = MiniTest::Mock.new
+    @switch_from = Struct.new(:connection, :name).new(ActiveRecord::Base, 'ActiveRecord::Base')
   end
 
   def test_db_role_should_accept_a_block
@@ -25,8 +26,8 @@ class DbRoleApiTest < Minitest::Test
   def test_db_role_set_current_thread_state
     def @connection_pool.connection; end
 
-    DbRole.switch(Object, @connection_pool) do
-      assert_equal Object.to_s, Thread.current[:dbrole].keys.first
+    DbRole.switch(@switch_from, @connection_pool) do
+      assert_equal @switch_from.name, Thread.current[:dbrole].keys.first
       assert_equal @connection_pool.object_id, Thread.current[:dbrole].values.first.object_id
     end
   end
