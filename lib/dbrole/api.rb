@@ -13,8 +13,6 @@ module DbRole
   #   role  - ActiveRecord::Base connection pool we want to use for the klass
   def switch(klass, role, &_block)
     validate_role_and_klass(klass, role)
-    fail ArgumentError, 'bad DB class' unless klass.respond_to?(:connection)
-
     klass_name = klass.name
 
     Thread.current[:dbrole] ||= {}
@@ -32,6 +30,13 @@ module DbRole
     end
   end
   module_function :switch
+
+  # clear option to switch connection for any class name
+  # it can be executed after a web-request
+  def clear
+    Thread.current[:dbrole].clear if Thread.current[:dbrole]
+  end
+  module_function :clear
 
   def validate_role_and_klass(klass, role)
     fail ArgumentError, 'bad DB class' unless klass.respond_to?(:connection)

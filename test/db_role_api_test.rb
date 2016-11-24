@@ -31,4 +31,14 @@ class DbRoleApiTest < Minitest::Test
       assert_equal @connection_pool.object_id, Thread.current[:dbrole].values.first.object_id
     end
   end
+
+  def test_db_role_clear
+    Thread.current[:dbrole] ||= {}
+    Thread.current[:dbrole]["Car"] = ShardA::Replica
+    refute_empty Thread.current[:dbrole]
+
+    DbRole.clear
+
+    assert_empty Thread.current[:dbrole]
+  end
 end
