@@ -75,7 +75,7 @@ ActiveRecord::Base.connection_handler.connection_pools.size
 DbRole.read_replica.connection.instance_eval { @connection_parameters }
 
 # check names of connection pools representing multi-db context
-User.connection_handler.instance_eval { @class_to_pool }.keys # => ["ActiveRecord::Base", "ReadReplica"]
+User.connection_handler.instance_eval("@class_to_pool").keys # => ["ActiveRecord::Base", "ReadReplica"]
 ```
 
 ##### TESTS RUN
