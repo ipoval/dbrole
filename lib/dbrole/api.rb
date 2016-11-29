@@ -31,6 +31,21 @@ module DbRole
   end
   module_function :switch
 
+  # This method does not clear the connection key, so we need use DbRole.clear after
+  #
+  # @params:
+  #   klass - ActiveRecord::Base class we want switch connection for
+  #   role  - ActiveRecord::Base connection pool we want to use for the klass
+  #
+  def switch_to(klass, role)
+    validate_role_and_klass(klass, role)
+    klass_name = klass.name
+
+    Thread.current[:dbrole] ||= {}
+    Thread.current[:dbrole][klass_name] = role
+  end
+  module_function :switch_to
+
   # clear option to switch connection for any class name
   # it can be executed after a web-request
   def clear
