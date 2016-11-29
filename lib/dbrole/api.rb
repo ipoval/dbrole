@@ -31,7 +31,7 @@ module DbRole
   end
   module_function :switch
 
-  # This method does not clear the connection key, so we need use DbRole.clear after
+  # This method does not clear the connection key, so we need to use DbRole.clear after
   #
   # @params:
   #   klass - ActiveRecord::Base class we want switch connection for
