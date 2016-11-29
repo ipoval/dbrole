@@ -1,6 +1,10 @@
 require_relative 'test_helper'
 
 class ShardBMultiDbTest < Minitest::Test
+  def teardown
+    DbRole.clear
+  end
+
   def test_shardB_master_replica_switching
     animals_master_count = Animal.count
     create_animal_in_master 'tiger'
