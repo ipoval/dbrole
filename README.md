@@ -41,11 +41,11 @@ DBROLE_ENABLED=true # set environment variable
 # switch db connection for all classes mapped to ActiveRecord::Base connection pool
 3. DbRole.switch(ActiveRecord::Base, DbRole.read_replica) { {Car,User,...}.where(...) }
 
-# nesting is discouraged
-DbRole.switch(Car, DbRole.read_replica) {
-  Car.where(...)
-  DbRole.switch(Car, ActiveRecord::Base) { ... }
-}
+# switch db connection in nested statements
+4. DbRole.switch(Car, DbRole.read_replica) {
+     Car.where(...)
+     DbRole.switch(Car, ActiveRecord::Base) { ... }
+   }
 ```
 
 ##### RE-INITIALIZE MULTI-DB CONNECTIONS IN THE FORKED PROCESSES CONTEXT
